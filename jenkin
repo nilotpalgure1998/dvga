@@ -9,7 +9,7 @@ pipeline {
      
      stage('Scan') {
      	steps {
-	    sh 'trivy --severity HIGH,CRITICAL --no-progress image --format table -o trivy-scan-report.txt nilotpalgure1998/dvga:latest'
+	    sh 'trivy --security-checks vuln,config image nilotpalgure1998/dvga:latest'
         }
      }
   }
