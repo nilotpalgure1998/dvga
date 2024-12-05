@@ -9,10 +9,7 @@ pipeline {
      
      stage('Scan') {
      	steps {
-	   script {
-               def trivyScan = sh(script: 'trivy -q -f json -o /var/lib/jenkins/reports/trivy-report.json nilotpalgure1998/dvga:latest', returnStdout: true)
-               writeFile file: 'trivyScan.md', text: trivyScan 
-	   }
+	    sh 'trivy --severity HIGH,CRITICAL --no-progress image --format table -o trivy-scan-report.txt ${nilotpalgure1998/dvga}:latest'
         }
      }
   }
