@@ -9,7 +9,7 @@ pipeline {
      
      stage('Scan') {
      	steps {
-	    sh 'trivy image --severity MEDIUM,HIGH,CRITICAL nilotpalgure1998/dvga:latest'
+	    sh 'trivy --exit-code 1 --no-progress image --severity HIGH,CRITICAL nilotpalgure1998/dvga:latest'
         }
      }
   }
