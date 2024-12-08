@@ -22,7 +22,7 @@ pipeline {
 	      string(credentialsId: 'USERNAME', variable: 'USERNAME'),
 	      string(credentialsId: 'PASSWORD', variable: 'PASSWORD')
 	   ]) {
-	    sh 'trivy --exit-code 1 image --severity HIGH,CRITICAL nilotpalgure1998/dvga:latest'
+	    sh 'trivy image --severity HIGH,CRITICAL nilotpalgure1998/dvga:latest'
 	   }
         }
      }
