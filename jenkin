@@ -1,5 +1,10 @@
 pipeline {
-  agent any 
+  agent any
+  environment {
+  	AQUA_SECRET=credentials('AQUA_SECRET')
+	AQUA_KEY=credentials('AQUA_KEY')
+	LOGGER_LEVEL='FINE'
+  }
   stages {
      stage('Build') {
        steps { 
@@ -9,7 +14,13 @@ pipeline {
      
      stage('Scan') {
      	steps {
+	   withCredentials([
+              string(credentialsId: 'AQUA_KEY', VARIABLE: 'AQUA_KEY'),
+              string(credentialsId: 'AQUA_SECRET', variable: 'AQUA_SECRET'),
+	      usernamePassword(credentialsId: 'PROVIDER_CREDENTIALS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')
+	   ]) {
 	    sh 'trivy --exit-code 1 image --severity HIGH,CRITICAL nilotpalgure1998/dvga:latest'
+	   }
         }
      }
   }
