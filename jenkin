@@ -3,9 +3,7 @@ pipeline {
   environment {
   	AQUA_SECRET=credentials('AQUA_SECRET')
 	AQUA_KEY=credentials('AQUA_KEY')
-	LOGGER_LEVEL='FINE'
-	USERANAME=credentials('USERNAME')
-	PASSWORD=credentials('PASSWORD')
+	PROVIDER_CREDENTIAL=credentials('PROVIDER_CREDENTIAL')
   }
   stages {
      stage('Build') {
@@ -17,10 +15,9 @@ pipeline {
      stage('Scan') {
      	steps {
 	   withCredentials([
-              string(credentialsId: 'AQUA_KEY', VARIABLE: 'AQUA_KEY'),
+              string(credentialsId: 'AQUA_KEY', variable: 'AQUA_KEY'),
               string(credentialsId: 'AQUA_SECRET', variable: 'AQUA_SECRET'),
-	      string(credentialsId: 'USERNAME', variable: 'USERNAME'),
-	      string(credentialsId: 'PASSWORD', variable: 'PASSWORD')
+	      usernamePassword(credentialsId: 'PROVIDER_CREDENTIAL', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')
 	   ]) {
 	    sh 'trivy image --severity HIGH,CRITICAL nilotpalgure1998/dvga:latest'
 	   }
