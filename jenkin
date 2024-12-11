@@ -4,6 +4,8 @@ pipeline {
   	AQUA_SECRET=credentials('AQUA_SECRET')
 	AQUA_KEY=credentials('AQUA_KEY')
 	PROVIDER_CREDENTIAL=credentials('PROVIDER_CREDENTIAL')
+
+	EMAIL_TO = 'nilotpalguresurvey@gmail.com'
   }
   stages {
      stage('Build') {
@@ -26,7 +28,14 @@ pipeline {
   }
   post {
   	failure {
-		mail bcc: '', body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "ERROR CI: Project name -> ${env.JOB_NAME}", to: "nilotpalgure1998@gmail.com";
+	     emailext body: 'Check console output at $BUILD_URL to view the result. \n\n ${CHANGES} \n\n -------------------\n${BUILD_LOG, maxLines=100, escapeHtml=false}',
+	     to: "{EMAIL_TO}",
+	     subject: 'Build failure in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+	}
+	unstable {
+	     emailext body: 'Check console output at $BUILD_URL to view the result. \n\n ${CHANGES} \n\n -------------------\n${BUILD_LOG, maxLines=100, escapeHtml=false}',
+	     to: "{EMAIL_TO}",
+	     subject: 'Build is unstable in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
 	}
   }
 }
