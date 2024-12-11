@@ -26,19 +26,19 @@ pipeline {
   }
   post {
   	failure {
-	     emailext body: 'Check console output at $BUILD_URL to view the result. \n\n ${CHANGES} \n\n -------------------\n${BUILD_LOG, maxLines=100, escapeHtml=false}',
+	     emailext body: 'Check console output to view the result.',
 	     to: 'nilotpalguresurvey@gmail.com',
-	     subject: 'Build failure in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+	     subject: 'Build failure in Jenkins.'
 	}
 	unstable {
-	     emailext body: 'Check console output at $BUILD_URL to view the result. \n\n ${CHANGES} \n\n -------------------\n${BUILD_LOG, maxLines=100, escapeHtml=false}',
+	     emailext body: 'Check console output to view the result.',
 	     to: 'nilotpalguresurvey@gmail.com',
-	     subject: 'Build is unstable in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+	     subject: 'Build is unstable in Jenkins.'
 	}
 	success {
-	     emailext body: 'Check console output at $BUILD_URL to view the result. \n\n ${CHANGES} \n\n -------------------\n${BUILD_LOG, maxLines=100, escapeHtml=false}',
+	     emailext body: 'Check console output to view the result.',
 	     to: 'nilotpalguresurvey@gmail.com',
-	     subject: 'Build is successful in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
+	     subject: 'Build is successful in Jenkins.'
 	}
   }
 }
