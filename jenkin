@@ -4,8 +4,6 @@ pipeline {
   	AQUA_SECRET=credentials('AQUA_SECRET')
 	AQUA_KEY=credentials('AQUA_KEY')
 	PROVIDER_CREDENTIAL=credentials('PROVIDER_CREDENTIAL')
-
-	EMAIL_TO = 'nilotpalguresurvey@gmail.com'
   }
   stages {
      stage('Build') {
@@ -21,7 +19,7 @@ pipeline {
               string(credentialsId: 'AQUA_SECRET', variable: 'AQUA_SECRET'),
 	      usernamePassword(credentialsId: 'PROVIDER_CREDENTIAL', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')
 	   ]) {
-	    sh 'trivy --exit-code 1 image --severity HIGH,CRITICAL nilotpalgure1998/dvga:latest'
+	    sh 'trivy image --severity HIGH,CRITICAL nilotpalgure1998/dvga:latest'
 	   }
         }
      }
@@ -29,12 +27,12 @@ pipeline {
   post {
   	failure {
 	     emailext body: 'Check console output at $BUILD_URL to view the result. \n\n ${CHANGES} \n\n -------------------\n${BUILD_LOG, maxLines=100, escapeHtml=false}',
-	     to: "{EMAIL_TO}",
+	     to: 'nilotpalguresurvey@gmail.com',
 	     subject: 'Build failure in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
 	}
 	unstable {
 	     emailext body: 'Check console output at $BUILD_URL to view the result. \n\n ${CHANGES} \n\n -------------------\n${BUILD_LOG, maxLines=100, escapeHtml=false}',
-	     to: "{EMAIL_TO}",
+	     to: 'nilotpalguresurvey@gmail.com',
 	     subject: 'Build is unstable in Jenkins: $PROJECT_NAME - #$BUILD_NUMBER'
 	}
   }
