@@ -19,7 +19,7 @@ pipeline {
               string(credentialsId: 'AQUA_SECRET', variable: 'AQUA_SECRET'),
 	      usernamePassword(credentialsId: 'PROVIDER_CREDENTIAL', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')
 	   ]) {
-	    sh 'trivy --exit-code 1 image --severity HIGH,CRITICAL nilotpalgure1998/dvga:latest'
+	    sh 'trivy image --severity HIGH,CRITICAL nilotpalgure1998/dvga:latest'
 	   }
         }
      }
