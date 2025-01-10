@@ -23,6 +23,15 @@ pipeline {
 	   }
         }
      }
+
+     stage('Publish to Aqua') {
+	steps {
+	    script {
+		sh 'aqua scan --input trivy-report.json --output aqua-report.json'
+		sh 'aqua publish --input aqua-report.json'
+	    }
+	}
+     }
   }
   
 }
